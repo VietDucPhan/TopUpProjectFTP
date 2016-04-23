@@ -1,0 +1,11 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/searchPage"
+        android:title="@string/men_search"/>
+    <item
+        android:id="@+id/addNewProduct"
+        android:title="@string/menu_addNewProduct"/>
+
+
+</menu>

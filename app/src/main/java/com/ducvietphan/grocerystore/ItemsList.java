@@ -20,17 +20,21 @@ public class ItemsList {
     }
 
     public boolean add(Item item){
-        if(isEmpty()){
-            this.head = this.tail = new Node(item);
+        if(!this.isBarcodeExist(item.getBarcode())){
+            if(isEmpty()){
+                this.head = this.tail = new Node(item);
+                this.length++;
+                return true;
+            } else {
+                Node node = new Node(item);
+                this.tail.next = node;
+                this.tail = node;
+            }
             this.length++;
             return true;
         } else {
-            Node node = new Node(item);
-            this.tail.next = node;
-            this.tail = node;
+            return false;
         }
-        this.length++;
-        return true;
     }
 
     public int getLength(){
@@ -49,13 +53,38 @@ public class ItemsList {
 
 
     public String toString(){
-        String result = "";
-        if(!isEmpty()){
-            Item item = this.head.getItem();
-            return item.getProductName();
+        String result = "{'items':[";
+            Node p = this.head;
+            while(p != null){
+                result += "{";
+                result += "'barcode':";
+                result += p.getItem().getBarcode()+",";
+                result += "'productName':";
+                result += p.getItem().getProductName()+",";
+                result += "'productPrice':";
+                result += p.getItem().getProductPrice()+",";
+                result += "'desc':";
+                result += p.getItem().getDesc();
+                result += "},";
+                p=p.next;
+            }
+        result += "]}";
+        return result;
+    }
+
+    public boolean isBarcodeExist(int barcode){
+        Node p = this.head;
+        boolean found = false;
+        while(p != null){
+
+            if(p.getItem().getBarcode() == barcode){
+                found = true;
+                break;
+            }
+            p=p.next;
         }
 
-        return result;
+        return found;
     }
 
 

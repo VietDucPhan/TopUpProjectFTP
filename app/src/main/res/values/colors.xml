@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#304ffe</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="textColor">#616161</color>
+    <color name="listViewBacgroundColor">#fafafa</color>
+    <color name="listViewBorderBottom">#d1d1d1</color>
     <color name="red">#ff4040</color>
-
+    <color name="white">#fff</color>
 </resources>

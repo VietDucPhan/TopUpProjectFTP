@@ -51,11 +51,20 @@ public class AddProduct extends AppCompatActivity {
                         if(itemModel.insertItem(barCodeInt, productNameSt, productPriceInt, descSt)){
                             productName.setText("");
                             barcode.setText("");
+                            barcode.setHint("Barcode*");
                             productPrice.setText("");
                             desc.setText("");
+
+                            productName.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                            barcode.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                            productPrice.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
+
                             Toast.makeText(getApplicationContext(), "Product saved", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Product not saved ", Toast.LENGTH_SHORT).show();
+                            barcode.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                            barcode.setText("");
+                            barcode.setHint("Duplicate barcode. Please enter again!");
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), "Please input all red fields", Toast.LENGTH_SHORT).show();

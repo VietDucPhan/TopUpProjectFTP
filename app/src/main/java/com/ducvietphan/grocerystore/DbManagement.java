@@ -70,12 +70,11 @@ public class DbManagement {
     }
 
 
-    public boolean insertItem(int barcode, String productName, int productPrice, String desc){
+    public boolean insertItemBck(int barcode, String productName, int productPrice, String desc){
         String st = this.toString();
         String insertId = new Integer(barcode).toString();
 
         Item insertItem = new Item(barcode, productName, productPrice, desc);
-
         try {
             JSONObject jsonObject = new JSONObject(st);
             JSONArray jsonArray = jsonObject.getJSONArray("items");
@@ -87,6 +86,17 @@ public class DbManagement {
             return false;
         }
         return true;
+    }
+
+    public boolean insertItem(int barcode, String productName, int productPrice, String desc){
+        Item insertItem = new Item(barcode, productName, productPrice, desc);
+        ItemsList it = this.getItemsList();
+        if(it.add(insertItem)){
+            this.writeToFile(it.toString());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

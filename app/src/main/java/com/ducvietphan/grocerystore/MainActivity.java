@@ -1,10 +1,13 @@
 package com.ducvietphan.grocerystore;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -15,18 +18,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tv = (TextView) findViewById(R.id.showText);
         DbManagement db = new DbManagement("items", getApplicationContext());
-        tv.setText(db.toString());
+        ItemsList itemsList = db.getItemsList();
+
+        LinearLayout ll = (LinearLayout) findViewById(R.id.scrollLinear);
+
+        Node current = itemsList.getHead();
+        while (current != null){
+            TextView tv = new TextView(getApplicationContext());
+            Item item = current.getItem();
+            tv.setText(item.getProductName());
+            ll.addView(tv);
+
+            current = current.next;
+        }
+
     }
 
     @Override
     public void onResume() {
     // After a pause OR at startup
         super.onResume();
-        TextView tv = (TextView) findViewById(R.id.showText);
-        DbManagement db = new DbManagement("items", getApplicationContext());
-        tv.setText(db.toString());
         //Refresh your stuff here
     }
 

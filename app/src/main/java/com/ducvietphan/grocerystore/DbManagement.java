@@ -2,6 +2,7 @@ package com.ducvietphan.grocerystore;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -30,7 +31,7 @@ public class DbManagement {
         File file = new File(this.context.getFilesDir() + "/" + name);
             if(!file.exists()){
             try{
-                String json = "{}";
+                String json = "{'items':[]}";
                 FileOutputStream fos = this.context.openFileOutput(this.name, Context.MODE_PRIVATE);
                 fos.write(json.getBytes());
                 fos.close();
@@ -42,6 +43,32 @@ public class DbManagement {
         }
     }
 
+    public ItemsList getItemsList(){
+        String st = this.toString();
+        ItemsList il = new ItemsList();
+        try {
+            JSONObject jsonObject = new JSONObject(st);
+            JSONArray jsonArray = jsonObject.getJSONArray("items");
+            if(jsonArray.length() > 0){
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject jo = jsonArray.getJSONObject(i);
+                    Item item = new Item();
+                    item.setBarcode(jo.getInt("barcode"));
+                    item.setProductName(jo.getString("productName"));
+                    item.setProductPrice(jo.getInt("productPrice"));
+                    item.setDesc(jo.getString("desc"));
+                    il.add(item);
+                }
+            }
+
+
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return il;
+    }
+
 
     public boolean insertItem(int barcode, String productName, int productPrice, String desc){
         String st = this.toString();
@@ -51,7 +78,8 @@ public class DbManagement {
 
         try {
             JSONObject jsonObject = new JSONObject(st);
-            jsonObject.put(insertId, insertItem.toJSONObject());
+            JSONArray jsonArray = jsonObject.getJSONArray("items");
+            jsonArray.put(insertItem.toJSONObject());
             this.writeToFile(jsonObject.toString());
 
         } catch (Throwable e) {

@@ -11,18 +11,48 @@ public class Item {
     private String productName;
     private int productPrice;
     private String desc;
-    private Item next;
 
-    public Item(int barcode, String productName, int productPrice, String desc, Item item){
+
+    public int getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(int barcode) {
+        this.barcode = barcode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public Item(){
+
+    }
+    public Item(int barcode, String productName, int productPrice, String desc){
         this.barcode = barcode;
         this.productName = productName;
         this.productPrice = productPrice;
         this.desc = desc;
-        this.next = item;
-    }
-
-    public Item(int barcode, String productName, int productPrice, String desc){
-        this(barcode,productName,productPrice,desc, null);
     }
 
     public JSONObject toJSONObject(){

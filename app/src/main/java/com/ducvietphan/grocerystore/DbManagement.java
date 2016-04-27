@@ -31,7 +31,7 @@ public class DbManagement {
         File file = new File(this.context.getFilesDir() + "/" + name);
             if(!file.exists()){
             try{
-                String json = "{'items':[]}";
+                String json = "{'"+this.name+"':[]}";
                 FileOutputStream fos = this.context.openFileOutput(this.name, Context.MODE_PRIVATE);
                 fos.write(json.getBytes());
                 fos.close();
@@ -48,7 +48,7 @@ public class DbManagement {
         ItemsList il = new ItemsList();
         try {
             JSONObject jsonObject = new JSONObject(st);
-            JSONArray jsonArray = jsonObject.getJSONArray("items");
+            JSONArray jsonArray = jsonObject.getJSONArray(this.name);
             if(jsonArray.length() > 0){
                 for(int i = 0; i < jsonArray.length(); i++){
                     JSONObject jo = jsonArray.getJSONObject(i);
@@ -88,11 +88,33 @@ public class DbManagement {
         return true;
     }
 
+    public boolean deleteItem(int barcode){
+        ItemsList it = this.getItemsList();
+        if(it.delete(barcode)){
+            String newData = "{'" + this.name + "':" + it.toString() + "}";
+            this.writeToFile(newData);
+        }
+
+        return true;
+    }
+
+    public boolean editItem(Item item){
+        ItemsList it = this.getItemsList();
+        Node n = new Node(item);
+        if(it.editNode(n)){
+            String newData = "{'" + this.name + "':" + it.toString() + "}";
+            this.writeToFile(newData);
+        }
+
+        return true;
+    }
+
     public boolean insertItem(int barcode, String productName, int productPrice, String desc){
         Item insertItem = new Item(barcode, productName, productPrice, desc);
         ItemsList it = this.getItemsList();
         if(it.add(insertItem)){
-            this.writeToFile(it.toString());
+            String newData = "{'" + this.name + "':" + it.toString() + "}";
+            this.writeToFile(newData);
             return true;
         } else {
             return false;

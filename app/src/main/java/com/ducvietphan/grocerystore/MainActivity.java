@@ -1,7 +1,8 @@
 package com.ducvietphan.grocerystore;
 
-import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,11 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void populateItemList(){
-        DbManagement db = new DbManagement("items", getApplicationContext());
-        ItemsList itemsList = db.getItemsList();
+        final DbManagement db = new DbManagement("items", getApplicationContext());
+        final ItemsList itemsList = db.getItemsList();
         LinearLayout ll = (LinearLayout) findViewById(R.id.scrollLinear);
         ll.removeAllViews();
         Node current = itemsList.getHead();
@@ -46,7 +44,37 @@ public class MainActivity extends AppCompatActivity {
             editBtn.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), "Barcode: " + item.getBarcode(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(MainActivity.this, AddProduct.class);
+                    i.putExtra("barcode", item.getBarcode());
+                    startActivity(i);
+                }
+            });
+
+
+            ImageView deleteBtn = (ImageView) injecterLayout.findViewById(R.id.minusBtn);
+
+            deleteBtn.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(view.getContext())
+                            .setTitle("Delete entry")
+                            .setMessage("Are you sure you want to delete this entry?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //itemsList.delete(item.getBarcode());
+                                    db.deleteItem(item.getBarcode());
+                                    Intent intent = getIntent();
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
             });
 

@@ -31,6 +31,8 @@ public class AddProduct extends AppCompatActivity {
             if(node != null){
                 productName.setText(node.getItem().getProductName());
                 barcode.setText(""+node.getItem().getBarcode());
+                barcode.setEnabled(false);
+                barcode.setFocusable(false);
                 productPrice.setText(""+node.getItem().getProductPrice());
                 desc.setText(node.getItem().getDesc());
             }
@@ -90,7 +92,6 @@ public class AddProduct extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Product saved", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Product not saved ", Toast.LENGTH_SHORT).show();
-                                barcode.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
                                 barcode.setText("");
                                 barcode.setHint("Duplicate barcode. Please enter again!");
                             }

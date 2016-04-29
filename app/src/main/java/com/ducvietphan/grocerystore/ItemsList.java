@@ -70,7 +70,7 @@ public class ItemsList {
     public boolean editNode(Node node){
         Node p = this.head;
         if(this.head.getItem().getBarcode() == node.getItem().getBarcode()){
-            node = this.head.next;
+            node.next = this.head.next;
             this.head = node;
             return true;
         }

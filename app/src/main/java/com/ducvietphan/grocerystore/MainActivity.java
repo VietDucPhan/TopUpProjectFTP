@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
                 this.startActivity(intent);
                 return true;
 
+            case R.id.searchPage:
+                Intent searchIntent = new Intent(this, SearchActivity.class);
+                this.startActivity(searchIntent);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 this.startActivity(intent);
                 return true;
 
-            case R.id.searchPage:
-                Intent searchIntent = new Intent(this, SearchActivity.class);
+            case R.id.calculatePage:
+                Intent searchIntent = new Intent(this, CalculateActivity.class);
                 this.startActivity(searchIntent);
                 return true;
             default:

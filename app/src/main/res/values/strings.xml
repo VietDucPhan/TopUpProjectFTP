@@ -2,4 +2,6 @@
     <string name="app_name">GroceryStore</string>
     <string name="menu_addNewProduct">Add new product</string>
     <string name="men_search">Search product</string>
+    <string name="calculate_page">Calculate Page</string>
+    <string name="title_activity_calculate">CalculateActivity</string>
 </resources>

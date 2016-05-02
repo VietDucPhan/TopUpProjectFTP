@@ -130,6 +130,24 @@ public class ItemsList {
         return result;
     }
 
+    public Item searchBarcode(int barcode){
+        Node p = this.head;
+        boolean found = false;
+        while(p != null){
+
+            if(p.getItem().getBarcode() == barcode){
+                found = true;
+                break;
+            }
+            p=p.next;
+        }
+
+        if(found){
+            return p.getItem();
+        }
+        return null;
+    }
+
     public boolean isBarcodeExist(int barcode){
         Node p = this.head;
         boolean found = false;

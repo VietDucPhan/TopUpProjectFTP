@@ -18,10 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddProduct" />
-        <activity android:name=".SearchActivity" />
         <activity
-            android:name=".CalculateActivity"
-            android:label="@string/title_activity_calculate"
+            android:name=".CartActivity"
+            android:label="@string/title_activity_cart"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

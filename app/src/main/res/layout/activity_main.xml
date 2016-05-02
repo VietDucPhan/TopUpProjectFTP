@@ -16,16 +16,17 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/search"
+            android:id="@+id/searchBarcode"
             android:hint="Enter barcode"
-            android:layout_toStartOf="@+id/button" />
+            android:inputType="number"
+            android:layout_toStartOf="@+id/searchBtn" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
-            android:layout_alignBottom="@+id/search"
+            android:layout_alignBottom="@+id/searchBarcode"
             android:layout_alignParentEnd="true"
-            android:id="@+id/button" />
+            android:id="@+id/searchBtn" />
     </RelativeLayout>
 
 

@@ -17,6 +17,12 @@ public class ItemsList {
         return this.head;
     }
 
+    public boolean clear(){
+        this.length = 0;
+        this.tail = this.head = null;
+        return true;
+    }
+
     public boolean isEmpty(){
         return this.head == null;
     }
@@ -35,6 +41,33 @@ public class ItemsList {
             this.length++;
             return true;
         } else {
+            return false;
+        }
+    }
+
+    public boolean addAdditionalItem(Item item){
+        if(!this.isBarcodeExist(item.getBarcode())){
+            if(isEmpty()){
+                this.head = this.tail = new Node(item);
+                this.length++;
+                return true;
+            } else {
+                Node node = new Node(item);
+                this.tail.next = node;
+                this.tail = node;
+            }
+            this.length++;
+            return true;
+        } else {
+            Item currentItem = this.getNodeByBarcode(item.getBarcode()).getItem();
+            int currentTotal = currentItem.getTotal() + 1;
+
+            item.setTotal(currentTotal);
+
+            Node n = new Node(item);
+
+
+            this.editNode(n);
             return false;
         }
     }
@@ -76,7 +109,7 @@ public class ItemsList {
         }
         while(p.next != null){
             if(p.next.getItem().getBarcode() == node.getItem().getBarcode()){
-                node.next = p.next;
+                node.next = p.next.next;
                 p.next = node;
                 break;
             }
@@ -109,21 +142,23 @@ public class ItemsList {
         String result = "[";
             Node p = this.head;
             while(p != null){
-                result += "{";
-                result += "'barcode':";
-                result += p.getItem().getBarcode()+",";
-                result += "'productName':";
-                result += "'"+p.getItem().getProductName()+"',";
-                result += "'productPrice':";
-                result += p.getItem().getProductPrice()+",";
-                result += "'desc':";
-                if(p.getItem().getDesc().isEmpty()){
-                    result += "'"+p.getItem().getDesc()+"'";
-                } else {
-                    result += "''";
-                }
-
-                result += "},";
+                result += p.getItem().toJSONObject().toString();
+                result += ",";
+//                result += "{";
+//                result += "'barcode':";
+//                result += p.getItem().getBarcode()+",";
+//                result += "'productName':";
+//                result += "'"+p.getItem().getProductName()+"',";
+//                result += "'productPrice':";
+//                result += p.getItem().getProductPrice()+",";
+//                result += "'desc':";
+//                if(p.getItem().getDesc().isEmpty()){
+//                    result += "'"+p.getItem().getDesc()+"'";
+//                } else {
+//                    result += "''";
+//                }
+//
+//                result += "},";
                 p=p.next;
             }
         result += "]";
@@ -146,6 +181,17 @@ public class ItemsList {
             return p.getItem();
         }
         return null;
+    }
+
+    public int totalPrice(){
+        Node p = this.head;
+        boolean found = false;
+        int total = 0;
+        while(p != null){
+            total += p.getItem().getTotal() * p.getItem().getProductPrice();
+            p=p.next;
+        }
+        return total;
     }
 
     public boolean isBarcodeExist(int barcode){

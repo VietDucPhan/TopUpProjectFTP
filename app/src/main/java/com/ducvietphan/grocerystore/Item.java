@@ -11,6 +11,17 @@ public class Item {
     private String productName;
     private int productPrice;
     private String desc;
+    private int total = 1;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+
 
 
     public int getBarcode() {
@@ -49,10 +60,22 @@ public class Item {
 
     }
     public Item(int barcode, String productName, int productPrice, String desc){
+        this(barcode, productName, productPrice, desc, 0);
+    }
+
+    public Item(int barcode, String productName, int productPrice, String desc, int total){
         this.barcode = barcode;
         this.productName = productName;
         this.productPrice = productPrice;
         this.desc = desc;
+        if(total != 0){
+            this.total = total;
+        }
+
+    }
+
+    public String toString(){
+        return this.toJSONObject().toString();
     }
 
     public JSONObject toJSONObject(){
@@ -62,6 +85,7 @@ public class Item {
             json.put("productName", this.productName);
             json.put("productPrice", this.productPrice);
             json.put("desc", this.desc);
+            json.put("total", this.getTotal());
         } catch (JSONException e) {
             e.printStackTrace();
         }

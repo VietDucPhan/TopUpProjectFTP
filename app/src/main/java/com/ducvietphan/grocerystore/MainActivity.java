@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final DbManagement db = new DbManagement("items", getApplicationContext());
+                final DbManagement cartDb = new DbManagement("cart", getApplicationContext());
                 final ItemsList itemsList = db.getItemsList();
                 LinearLayout ll = (LinearLayout) findViewById(R.id.scrollLinear);
 
@@ -46,17 +47,29 @@ public class MainActivity extends AppCompatActivity {
                         TextView barcode = (TextView) injecterLayout.findViewById(R.id.barcode);
                         barcode.setText("Barcode: " + item.getBarcode());
                         TextView price = (TextView) injecterLayout.findViewById(R.id.productPrice);
-                        price.setText("Price: " + item.getProductPrice());
+                        price.setText("Price: " + getResources().getText(R.string.money_sign) + item.getProductPrice());
                         TextView desc = (TextView) injecterLayout.findViewById(R.id.productDesc);
                         desc.setText("Desc: " + item.getDesc());
 
                         ImageView editBtn = (ImageView) injecterLayout.findViewById(R.id.editBtn);
-                        editBtn.setOnClickListener( new View.OnClickListener() {
+                        editBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent i = new Intent(MainActivity.this, AddProduct.class);
                                 i.putExtra("barcode", item.getBarcode());
                                 startActivity(i);
+                            }
+                        });
+
+                        ImageView addToCartBtn = (ImageView) injecterLayout.findViewById(R.id.addToCartBtn);
+                        addToCartBtn.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(cartDb.addItem(item.getBarcode(), item.getProductName(), item.getProductPrice(), item.getDesc())){
+                                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.added_new_product), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.added_product), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
 
@@ -103,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void populateItemList(){
         final DbManagement db = new DbManagement("items", getApplicationContext());
+        final DbManagement cartDb = new DbManagement("cart", getApplicationContext());
         final ItemsList itemsList = db.getItemsList();
         LinearLayout ll = (LinearLayout) findViewById(R.id.scrollLinear);
         ll.removeAllViews();
@@ -117,17 +131,29 @@ public class MainActivity extends AppCompatActivity {
             TextView barcode = (TextView) injecterLayout.findViewById(R.id.barcode);
             barcode.setText("Barcode: " + item.getBarcode());
             TextView price = (TextView) injecterLayout.findViewById(R.id.productPrice);
-            price.setText("Price: " + item.getProductPrice());
+            price.setText("Price: " + getResources().getText(R.string.money_sign) + item.getProductPrice());
             TextView desc = (TextView) injecterLayout.findViewById(R.id.productDesc);
             desc.setText("Desc: " + item.getDesc());
 
             ImageView editBtn = (ImageView) injecterLayout.findViewById(R.id.editBtn);
-            editBtn.setOnClickListener( new View.OnClickListener() {
+            editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(MainActivity.this, AddProduct.class);
                     i.putExtra("barcode", item.getBarcode());
                     startActivity(i);
+                }
+            });
+
+            ImageView addToCartBtn = (ImageView) injecterLayout.findViewById(R.id.addToCartBtn);
+            addToCartBtn.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(cartDb.addItem(item.getBarcode(), item.getProductName(), item.getProductPrice(), item.getDesc())){
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.added_new_product), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.added_product), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -161,8 +187,6 @@ public class MainActivity extends AppCompatActivity {
 
             current = current.next;
         }
-        TextView debug = (TextView) findViewById(R.id.debug);
-        debug.setText(itemsList.toString());
     }
 
     @Override
@@ -187,6 +211,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.addNewProduct:
                 Intent intent = new Intent(this, AddProduct.class);
                 this.startActivity(intent);
+                return true;
+            case R.id.cartPage:
+                Intent cartIntent = new Intent(this, CartActivity.class);
+                this.startActivity(cartIntent);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

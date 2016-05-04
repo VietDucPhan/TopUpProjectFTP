@@ -3,6 +3,9 @@
     <string name="menu_addNewProduct">Add new product</string>
     <string name="men_search">Search product</string>
     <string name="calculate_page">Calculate Page</string>
-    <string name="title_activity_calculate">CalculateActivity</string>
+    <string name="menu_cartPage">Go to cart</string>
     <string name="title_activity_cart">CartActivity</string>
+    <string name="added_new_product">Added a new product to cart</string>
+    <string name="added_product">Added a product to cart</string>
+    <string name="money_sign">$</string>
 </resources>

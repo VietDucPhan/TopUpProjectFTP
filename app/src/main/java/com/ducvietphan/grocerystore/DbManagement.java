@@ -1,6 +1,7 @@
 package com.ducvietphan.grocerystore;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,6 +46,7 @@ public class DbManagement {
 
     public ItemsList getItemsList(){
         String st = this.toString();
+        //Log.d("Raw string",st);
         ItemsList il = new ItemsList();
         try {
             JSONObject jsonObject = new JSONObject(st);
@@ -57,6 +59,7 @@ public class DbManagement {
                     item.setProductName(jo.getString("productName"));
                     item.setProductPrice(jo.getInt("productPrice"));
                     item.setDesc(jo.getString("desc"));
+                    item.setTotal(jo.getInt("total"));
                     il.add(item);
                 }
             }
@@ -98,10 +101,20 @@ public class DbManagement {
         return true;
     }
 
+    public boolean checkOut(){
+        ItemsList it = this.getItemsList();
+        if(it.clear()){
+            String newData = "{'" + this.name + "':" + it.toString() + "}";
+            this.writeToFile(newData);
+        }
+        return true;
+    }
+
     public boolean editItem(Item item){
         ItemsList it = this.getItemsList();
         Node n = new Node(item);
         if(it.editNode(n)){
+
             String newData = "{'" + this.name + "':" + it.toString() + "}";
             this.writeToFile(newData);
         }
@@ -117,6 +130,20 @@ public class DbManagement {
             this.writeToFile(newData);
             return true;
         } else {
+            return false;
+        }
+    }
+
+    public boolean addItem(int barcode, String productName, int productPrice, String desc){
+        Item insertItem = new Item(barcode, productName, productPrice, desc);
+        ItemsList it = this.getItemsList();
+        if(it.addAdditionalItem(insertItem)){
+            String newData = "{\"cart\":" + it.toString() + "}";
+            this.writeToFile(newData);
+            return true;
+        } else {
+            String newData = "{\"cart\":" + it.toString() + "}";
+            this.writeToFile(newData);
             return false;
         }
     }

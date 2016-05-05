@@ -1,10 +1,12 @@
 package com.ducvietphan.grocerystore;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -38,9 +40,9 @@ public class CartActivity extends AppCompatActivity {
                     cartDb.checkOut();
                     Snackbar.make(view, "Checkout successfully you will be redirected in 3s", Snackbar.LENGTH_LONG).show();
                     Runnable mRunnable;
-                    Handler mHandler=new Handler();
+                    Handler mHandler = new Handler();
 
-                    mRunnable=new Runnable() {
+                    mRunnable = new Runnable() {
 
                         @Override
                         public void run() {
@@ -48,7 +50,7 @@ public class CartActivity extends AppCompatActivity {
                             startActivity(mainActivity);
                         }
                     };
-                    mHandler.postDelayed(mRunnable,3000);//Execute after 10 Seconds
+                    mHandler.postDelayed(mRunnable, 3000);//Execute after 10 Seconds
                 }
             });
         }
@@ -66,6 +68,33 @@ public class CartActivity extends AppCompatActivity {
             TextView productPrice = (TextView) injecterLayout.findViewById(R.id.productPrice);
             TextView productQuantity = (TextView) injecterLayout.findViewById(R.id.productQuantity);
             TextView productTotal = (TextView) injecterLayout.findViewById(R.id.productTotal);
+            TextView delete = (TextView) injecterLayout.findViewById(R.id.deleteCartProduct);
+            delete.setText("delete");
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(view.getContext())
+                            .setTitle("Delete entry")
+                            .setMessage("Are you sure you want to delete this entry?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //itemsList.delete(item.getBarcode());
+                                    cartDb.deleteItem(item.getBarcode());
+                                    Intent intent = getIntent();
+                                    finish();
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+                }
+            });
 
             productName.setText("" + item.getProductName());
             productPrice.setText("$" + item.getProductPrice());

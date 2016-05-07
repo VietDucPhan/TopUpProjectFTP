@@ -1,22 +1,50 @@
 package com.ducvietphan.grocerystore;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddProduct extends AppCompatActivity {
-
+    private static int RESULT_LOAD_IMAGE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
         Button saveBtn = (Button) findViewById(R.id.saveBtn);
         final DbManagement itemModel = new DbManagement("items",getApplicationContext());
+//        ImageView iv = (ImageView) findViewById(R.id.imagePicker);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent pickIntent = new Intent();
+//                pickIntent.setType("image/*");
+//                pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//                String pickTitle = "Select or take a new Picture"; // Or get from strings.xml
+//                Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+//                chooserIntent.putExtra
+//                        (
+//                                Intent.EXTRA_INITIAL_INTENTS,
+//                                new Intent[] { takePhotoIntent }
+//                        );
+//
+//                startActivityForResult(chooserIntent, RESULT_LOAD_IMAGE);
+//
+//            }
+//        });
 
         if(getIntent().hasExtra("barcode")){
             int passedBarcode = getIntent().getExtras().getInt("barcode");
@@ -105,5 +133,28 @@ public class AddProduct extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK ) {
+            Log.d("data", data.getData().toString());
+//            Uri selectedImage = data.getData();
+//            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//
+//            Cursor cursor = getContentResolver().query(selectedImage,
+//                    filePathColumn, null, null, null);
+//            cursor.moveToFirst();
+//
+//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//            String picturePath = cursor.getString(columnIndex);
+//            cursor.close();
+//
+//            ImageView imageView = (ImageView) findViewById(R.id.imagePicker);
+//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+        }
+
+
+    }
 }

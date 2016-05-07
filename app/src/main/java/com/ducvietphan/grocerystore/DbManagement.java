@@ -14,14 +14,20 @@ import java.io.IOException;
 
 /**
  * Created by macbook on 4/23/16.
+ * Dbmanagement class using as a model class
+ * interact with database file.
  */
 public class DbManagement {
-    private String name = "items";
-    private Context context;
 
+    private String name = "items";//Always innit and create file name as items
 
+    private Context context; //context this context is imported from activity
 
-
+    /**
+     * Contructor method for DbManagement class
+     * @param name String name of database to be created innit "items"
+     * @param c Context context deliver from Activity
+     */
     public DbManagement(String name, Context c){
         if(!name.isEmpty()){
             this.name = name;
@@ -43,6 +49,12 @@ public class DbManagement {
             }
         }
     }
+
+    /**
+     * Method to get saved items in file database.
+     *
+     * @return ItemsList New ItemsList from database file
+     */
 
     public ItemsList getItemsList(){
         String st = this.toString();
@@ -72,25 +84,11 @@ public class DbManagement {
         return il;
     }
 
-
-    public boolean insertItemBck(int barcode, String productName, int productPrice, String desc){
-        String st = this.toString();
-        String insertId = new Integer(barcode).toString();
-
-        Item insertItem = new Item(barcode, productName, productPrice, desc);
-        try {
-            JSONObject jsonObject = new JSONObject(st);
-            JSONArray jsonArray = jsonObject.getJSONArray("items");
-            jsonArray.put(insertItem.toJSONObject());
-            this.writeToFile(jsonObject.toString());
-
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
+    /**
+     * Delete an item based on its barcode
+     * @param barcode int
+     * @return boolean true on success, false otherwise
+     */
     public boolean deleteItem(int barcode){
         ItemsList it = this.getItemsList();
         if(it.delete(barcode)){
@@ -101,6 +99,10 @@ public class DbManagement {
         return true;
     }
 
+    /**
+     * Clear database cart
+     * @return boolean true on success, false otherwise
+     */
     public boolean checkOut(){
         ItemsList it = this.getItemsList();
         if(it.clear()){
@@ -110,6 +112,11 @@ public class DbManagement {
         return true;
     }
 
+    /**
+     * Edit an Item and save to database
+     * @param item Item
+     * @return  boolean true on success, false otherwise
+     */
     public boolean editItem(Item item){
         ItemsList it = this.getItemsList();
         Node n = new Node(item);
@@ -122,6 +129,14 @@ public class DbManagement {
         return true;
     }
 
+    /**
+     * Insert an item to database
+     * @param barcode int
+     * @param productName String
+     * @param productPrice int
+     * @param desc String
+     * @return boolean true on success, false otherwise
+     */
     public boolean insertItem(int barcode, String productName, int productPrice, String desc){
         Item insertItem = new Item(barcode, productName, productPrice, desc);
         ItemsList it = this.getItemsList();
@@ -134,6 +149,14 @@ public class DbManagement {
         }
     }
 
+    /**
+     * Add an additional item quantity into an item in cart database
+     * @param barcode int
+     * @param productName String
+     * @param productPrice int
+     * @param desc String
+     * @return boolean true on success, false otherwise
+     */
     public boolean addItem(int barcode, String productName, int productPrice, String desc){
         Item insertItem = new Item(barcode, productName, productPrice, desc);
         ItemsList it = this.getItemsList();
@@ -172,6 +195,10 @@ public class DbManagement {
         return true;
     }
 
+    /**
+     * Read file and return its content
+     * @return String return string content read from file
+     */
     public String toString() {
         StringBuilder builder = new StringBuilder();
         FileInputStream fis = null;

@@ -11,7 +11,7 @@ public class Item {
     private String productName;
     private int productPrice;
     private String desc;
-    private int total = 1;
+    private int total = 1;//quantity default of an item is 1
 
     public int getTotal() {
         return total;

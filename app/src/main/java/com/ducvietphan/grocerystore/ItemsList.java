@@ -4,29 +4,52 @@ import android.util.Log;
 
 /**
  * Created by macbook on 4/23/16.
+ * Singly linked list class ItemsList
  */
 public class ItemsList {
+    //delare attributes for class ItemList
     public Node tail, head;
     private int length;
+
+    /**
+     * Constructor method create an empty ItemsList
+     */
     public ItemsList(){
         this.length = 0;
         this.tail = this.head = null;
     }
 
+    /**
+     * Get head of linked list
+     * @return Node
+     */
     public Node getHead(){
         return this.head;
     }
 
+    /**
+     * Clear all nodes of this ItemsList
+     * @return boolean true on success, false otherwise
+     */
     public boolean clear(){
         this.length = 0;
         this.tail = this.head = null;
         return true;
     }
 
+    /**
+     * Determine whether the ItemsList is empty
+     * @return boolean true if empty, false otherwise.
+     */
     public boolean isEmpty(){
         return this.head == null;
     }
 
+    /**
+     * Add an item to Itemslist as a new node
+     * @param item Item
+     * @return boolean true on success, false otherwise.
+     */
     public boolean add(Item item){
         if(!this.isBarcodeExist(item.getBarcode())){
             if(isEmpty()){
@@ -45,6 +68,12 @@ public class ItemsList {
         }
     }
 
+    /**
+     * Add an additional quantity to an item.
+     *
+     * @param item
+     * @return boolean true on success, false otherwise.
+     */
     public boolean addAdditionalItem(Item item){
         if(!this.isBarcodeExist(item.getBarcode())){
             if(isEmpty()){
@@ -86,6 +115,11 @@ public class ItemsList {
         return i;
     }
 
+    /**
+     * Get Node by barcode
+     * @param barcode
+     * @return Node return a node in itemslist
+     */
     public Node getNodeByBarcode(int barcode){
         Node p = this.head;
         if(this.head.getItem().getBarcode() == barcode){
@@ -100,6 +134,11 @@ public class ItemsList {
         return p;
     }
 
+    /**
+     * Edit a node in a Itemlist
+     * @param node
+     * @return
+     */
     public boolean editNode(Node node){
         Node p = this.head;
         if(this.head.getItem().getBarcode() == node.getItem().getBarcode()){
@@ -193,6 +232,7 @@ public class ItemsList {
         }
         return total;
     }
+
 
     public boolean isBarcodeExist(int barcode){
         Node p = this.head;

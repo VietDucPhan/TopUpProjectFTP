@@ -47,6 +47,7 @@
         android:id="@+id/desc"
         android:layout_gravity="center_horizontal" />
 
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
